@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct EstablishmentsTabView: View {
+  @Namespace private var animation
+  @State private var selectedTab: String = "рестораны"
+  let tabs = ["рестораны", "кафе", "бары", "кальянные"]
+  
   var body: some View {
-    VStack {
-      Text("Establishments Screen")
-        .font(.largeTitle)
-        .padding()
-      Image(systemName: "figure.socialdance")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 100, height: 100)
-    }
+    Title(title: "Заведения", subtitle: "для поводов и без")
+    
+    Spacer()
+    
+    TabBar(selectedTab: $selectedTab, tabs: tabs, animation: animation)
   }
+}
+
+#Preview {
+  EstablishmentsTabView()
 }

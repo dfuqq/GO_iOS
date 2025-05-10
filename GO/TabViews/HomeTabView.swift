@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct HomeTabView: View {
+  @State private var tapped: Bool = false
+  
   var body: some View {
-    VStack(alignment: .leading) {
-      VStack(alignment: .leading) {
-        HStack {
-          
-            Text("GO! –\nГид по Сургуту")
-              .font(.title)
-          Spacer()
+    Title(title: "В тренде", subtitle: "самое популярное сейчас")
+    
+    ScrollView {
+      VStack(spacing: 12) {
+        ForEach (
+          1...3,
+          id: \.self
+        ) {_ in 
+          Card(
+            cardTitle: "Auditorium",
+            cardDescription: "Бар",
+            backgroundColor: .blue
+          )
         }
-        Spacer()
-        VStack (alignment: .leading) {
-          HomeButtons()
-        }
-        Spacer()
       }
+      .padding()
     }
-    .padding()
   }
 }
 
