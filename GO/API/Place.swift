@@ -8,7 +8,9 @@
 import Foundation
 
 struct Place: Identifiable, Decodable {
-  var id: Int
+  var slug: String
   var name: String
-  var category: String
+  var subtitle: String
+  
+  var id: String { slug }
 }

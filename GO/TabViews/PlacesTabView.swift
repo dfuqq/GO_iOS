@@ -14,34 +14,43 @@ struct PlacesTabView: View {
   let tabs = ["все", "парки", "памятники", "музеи", "test"]
   
   @State private var places: [Place] = []
+  @State private var isLoading = true
+  @State private var isError = false
   
   var body: some View {
     Title(title: "Места", subtitle: "известные и не очень")
     
-    if selectedTab == "памятники" {
-      List(places) {place in
-        VStack(alignment: .leading) {
-          Text(place.name)
-          Text(place.category)
-            .font(.subheadline)
-            .background(.red)
-        }
-        
+    Group {
+      if isLoading {
+        Text("Loading")
       }
-      .task {
-        do {
-          places = try await supabase.from("places").select().execute().value
-        } catch {
-          debugPrint(error)
+      if isError {
+        Text("Error")
+      }
+        List(places) {place in
+          VStack(alignment: .leading) {
+            Text(place.name)
+          }
         }
       }
+    .task {
+      do {
+        isLoading = true
+        places = try await supabase.from("places").select().execute().value
+      } catch {
+        isError = true
+        debugPrint(error)
+      }
+      isLoading = false
     }
     
     Spacer()
     
     TabBar(selectedTab: $selectedTab, tabs: tabs, animation: animation)
   }
+  
 }
+
 
 
 #Preview {
